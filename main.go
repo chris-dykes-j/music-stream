@@ -6,7 +6,6 @@ import (
 )
 
 func main() {
-    http.Handle("/src/", http.StripPrefix("/src/", http.FileServer(http.Dir("static/dist"))))
     http.Handle("/music/", http.StripPrefix("/music/", http.FileServer(http.Dir("music"))))
 
     http.HandleFunc("/", indexHandler)
