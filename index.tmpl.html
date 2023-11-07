@@ -8,10 +8,21 @@
 <body>
     <h1>Play cool miku music</h1>
     <audio id="player" tabindex="-1" controls>
-        <source src="http://localhost:8080/music/miku.mp3" type="audio/mpeg">
+        <source id="player-track" src="http://localhost:8080/music/miku.wav" type="audio/mpeg">
         Why you no support?
     </audio>
-    <!--<script src="script.js"></script>-->
+
+    <ul id="track-list">
+        {{ range . }}
+        <li class="track">
+            <a href="#" onclick="event.preventDefault(); selectTrack('{{ . }}');">
+                {{ . }}
+            </a>
+        </li>
+        {{ end}}
+    </ul>
+
+    <script src="/src/script.js"></script>
 </body>
 
 </html>
