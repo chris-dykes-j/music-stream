@@ -1,28 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Music Stream</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Music Stream</title>
+        <link href="/src/output.css" rel="stylesheet">
+    </head>
 
-<body>
-    <h1>Play cool miku music</h1>
-    <audio id="player" tabindex="-1" controls>
-        <source id="player-track" src="http://localhost:8080/music/miku.wav" type="audio/mpeg">
-        Why you no support?
-    </audio>
+    <body class="bg-zinc-800 text-slate-50">
+        <h1 class="text-5xl text-center m-12">Play cool miku music</h1>
+        <div class="flex justify-center">
+            <audio id="player" tabindex="-1" controls class="w-3/4">
+                <source id="player-track" type="audio/mpeg">
+                Why you no support?
+            </audio>
+        </div>
 
-    <ul id="track-list">
-        {{ range . }}
-        <li class="track">
-            <a href="#" onclick="event.preventDefault(); selectTrack('{{ . }}');">
-                {{ . }}
-            </a>
-        </li>
-        {{ end}}
-    </ul>
+        <div class="mt-5 w-3/4 mx-auto">
+            <table class="table-auto w-full border-collapse">
+                <tbody>
+                    {{ range . }}
+                    <tr class="cursor-pointer hover:text-cyan-200 hover:bg-zinc-700"
+                        onclick="event.preventDefault(); selectTrack('{{ .Artist}}/{{ .Name }}');">
+                        <td class="p-2">{{ .Number }}</td>
+                        <td class="p-2">{{ .Name }}</td>
+                        <td class="p-2">{{ .Artist }}</td>
+                        <td class="p-2">{{ .Album }}</td>
+                    </tr>
+                    {{ end }}
+                </tbody>
+            </table>
+        </div>
 
-    <script src="/src/script.js"></script>
-</body>
+        <script src="/src/script.js"></script>
+    </body>
 
 </html>

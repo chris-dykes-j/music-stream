@@ -10,36 +10,49 @@ import (
 	//_ "github.com/mattn/go-sqlite3"
 )
 
-func getAllTracks() []string {
-    var result []string
-    dir, err := os.UserHomeDir()
-    if err != nil {
-        fmt.Println(err)
-    }
-    dir = dir + "/Music/Vocaloid/emonloid4"
-    files, err := os.ReadDir(dir)
-    if err != nil {
-        fmt.Println(err)
-    }
+func getAllTracks() []Track {
+	var result []Track
+	dir, err := os.UserHomeDir()
+	if err != nil {
+		fmt.Println(err)
+	}
+	dir = dir + "/Music/Vocaloid/emonloid4"
+	files, err := os.ReadDir(dir)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-    for _, file := range files {
-        if isAudio(file) {
-            result = append(result, file.Name())
-        }
-    }
-    
-    return result 
+	for i, file := range files {
+		if isAudio(file) {
+			track := Track{
+				Name:   file.Name(),
+				Artist: "emonloid4",
+                Album: "Cool",
+				Number: i,
+			}
+			result = append(result, track)
+		}
+	}
+
+	return result
+}
+
+type Track struct {
+	Name   string
+	Artist string
+    Album  string
+	Number int
 }
 
 // AI
 func isAudio(file fs.DirEntry) bool {
-    fileName := file.Name()
-    extension := strings.ToLower(filepath.Ext(fileName))
+	fileName := file.Name()
+	extension := strings.ToLower(filepath.Ext(fileName))
 
-    switch extension {
-    case ".mp3", ".wav", ".flac":
-        return true
-    default:
-        return false
-    }
+	switch extension {
+	case ".mp3", ".wav", ".flac":
+		return true
+	default:
+		return false
+	}
 }
