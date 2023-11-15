@@ -8,7 +8,13 @@ import (
 )
 
 func main() {
-    http.Handle("/music/", http.StripPrefix("/music/", http.FileServer(http.Dir("music"))))
+    dir, err := os.UserHomeDir()
+    if err != nil {
+        fmt.Println(err)
+    }
+    dir = dir + "/Music/Vocaloid/emonloid4"
+
+    http.Handle("/music/", http.StripPrefix("/music/", http.FileServer(http.Dir(dir))))
     http.Handle("/src/", http.StripPrefix("/src/", http.FileServer(http.Dir("static"))))
 
     http.HandleFunc("/", indexHandler)
@@ -22,18 +28,4 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
     if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-}
-
-func getAllTracks() []string {
-    var result []string
-    files, err := os.ReadDir("./music")
-    if err != nil {
-        fmt.Println(err)
-    }
-
-    for _, file := range files {
-        result = append(result, file.Name())
-    }
-    
-    return result 
 }
